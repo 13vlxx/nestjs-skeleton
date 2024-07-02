@@ -35,14 +35,14 @@ $ npm install
 ## Running the app
 
 ```bash
-# development
-$ npm run start
+# create volume
+$ docker volume create mongo_data
+
+# launch mongo
+$ docker compose up -d
 
 # watch mode
 $ npm run start:dev
-
-# production mode
-$ npm run start:prod
 ```
 
 ## Environments Variables
@@ -52,7 +52,7 @@ $ npm run start:prod
 $ FRONTEND_URL=http://localhost:5173
 
 # Mongodb url example
-$ MONGODB_URL=mongodb://localhost:27017/nestjs-skeleton
+$ MONGODB_URL=mongodb://localhost:27018/nestjs-skeleton
 
 # JWT Secret example
 $ JWT_SECRET=SKELETON_SECRET_84958
