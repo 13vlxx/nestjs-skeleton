@@ -45,28 +45,18 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
+## Environments Variables
 
 ```bash
-# unit tests
-$ npm run test
+# Frontend url example
+$ FRONTEND_URL=http://localhost:5173
 
-# e2e tests
-$ npm run test:e2e
+# Mongodb url example
+$ MONGODB_URL=mongodb://localhost:27017/nestjs-skeleton
 
-# test coverage
-$ npm run test:cov
+# JWT Secret example
+$ JWT_SECRET=SKELETON_SECRET_84958
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
 ## License
 
