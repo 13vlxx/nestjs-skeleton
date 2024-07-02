@@ -1,5 +1,6 @@
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
-import { IsEmailAvailable } from 'src/users/_utils/constraints/is-user-not-existing.constraint';
+import { IsExisting } from 'src/_utils/constraints/unique-exists.constraint';
+import { User } from 'src/users/user.schema';
 import { SolidPassword } from '../../decorators/solid-password.decorator';
 
 export class RegisterUserDto {
@@ -12,7 +13,7 @@ export class RegisterUserDto {
   lastname: string;
 
   @IsEmail()
-  @IsEmailAvailable()
+  @IsExisting(User.name, 'email')
   email: string;
 
   @SolidPassword()

@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { EnvironmentVariables } from 'src/_utils/config/config';
-import { IsEmailAvailableConstraint } from 'src/users/_utils/constraints/is-user-not-existing.constraint';
+import { UniqueExistsConstraint } from 'src/_utils/constraints/unique-exists.constraint';
 import { UsersModule } from 'src/users/users.module';
 import { JwtStrategy } from './_utils/jwt/jwt.strategy';
 import { AuthController } from './auth.controller';
@@ -24,6 +24,6 @@ import { AuthService } from './auth.service';
     UsersModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, IsEmailAvailableConstraint],
+  providers: [AuthService, JwtStrategy, UniqueExistsConstraint],
 })
 export class AuthModule {}
