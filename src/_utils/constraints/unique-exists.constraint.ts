@@ -9,7 +9,7 @@ import {
 } from 'class-validator';
 import { Connection } from 'mongoose';
 
-@ValidatorConstraint({ name: 'isUnique', async: true })
+@ValidatorConstraint({ async: true })
 @Injectable()
 export class UniqueExistsConstraint implements ValidatorConstraintInterface {
   constructor(@InjectConnection() private readonly connection: Connection) {}
