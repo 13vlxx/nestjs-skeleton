@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/mongoose';
 import {
   ValidationArguments,
@@ -7,7 +7,7 @@ import {
   ValidatorConstraintInterface,
   registerDecorator,
 } from 'class-validator';
-import { Connection } from 'mongoose';
+import { Connection, ObjectId, isValidObjectId } from 'mongoose';
 
 @ValidatorConstraint({ async: true })
 @Injectable()
@@ -17,13 +17,19 @@ export class UniqueExistsConstraint implements ValidatorConstraintInterface {
   async validate(value: any, args: ValidationArguments) {
     const [entity, column, flag] = args.constraints;
 
+    if (column === '_id' && !isValidObjectId(value))
+      throw new ConflictException('Invalid ObjectId');
+
     const repository = this.connection.model(entity);
-    const result = await repository.findOne({ [column]: value }).exec();
+    const result = await repository
+      .findOne({ [column]: value as ObjectId })
+      .exec();
+
     return flag ? !!result : !result;
   }
 
   defaultMessage(args: ValidationArguments) {
-    return `${args.property} "${args.value}" already exists`;
+    return `${args.constraints[1]} "${args.value}" already exists`;
   }
 }
 
