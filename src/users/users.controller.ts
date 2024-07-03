@@ -1,16 +1,7 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  Param,
-  Post,
-} from '@nestjs/common';
+import { Controller, Delete, Get, HttpCode, Param } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { ConnectedUser } from 'src/auth/_utils/decorators/connected-user.decorator';
 import { Protect } from 'src/auth/_utils/decorators/protect.decorator';
-import { TestDto } from 'src/auth/_utils/dtos/requests/test.dto';
 import { UserRoleEnum } from './_utils/user-role.enum';
 import { GetUserByIdPipe } from './_utils/user.pipe';
 import { UserDocument } from './user.schema';
@@ -44,10 +35,5 @@ export class UsersController {
     @Param('userId', GetUserByIdPipe) user: UserDocument,
   ) {
     return this.usersRepository.safeDeleteUser(by, user);
-  }
-
-  @Post('test')
-  test(@Body() body: TestDto) {
-    return body;
   }
 }
