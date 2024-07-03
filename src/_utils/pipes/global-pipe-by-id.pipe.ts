@@ -54,7 +54,9 @@ export function getDocumentByIdPipe(
         strict: false,
       });
 
-      const document = await modelInstance.findById(id).exec();
+      const document = await modelInstance
+        .findOne({ _id: id, deletedAt: null })
+        .exec();
       if (!document) {
         throw new BadRequestException('DOCUMENT_NOT_FOUND');
       }
