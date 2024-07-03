@@ -7,7 +7,7 @@ import {
   ValidatorConstraintInterface,
   registerDecorator,
 } from 'class-validator';
-import { Connection, ObjectId, isValidObjectId } from 'mongoose';
+import { Connection, isValidObjectId } from 'mongoose';
 
 @ValidatorConstraint({ async: true })
 @Injectable()
@@ -21,15 +21,13 @@ export class UniqueExistsConstraint implements ValidatorConstraintInterface {
       throw new ConflictException('Invalid ObjectId');
 
     const repository = this.connection.model(entity);
-    const result = await repository
-      .findOne({ [column]: value as ObjectId })
-      .exec();
+    const result = await repository.findOne({ [column]: value }).exec();
 
     return flag ? !!result : !result;
   }
 
   defaultMessage(args: ValidationArguments) {
-    return `${args.constraints[1]} "${args.value}" already exists`;
+    return `${args.constraints[1]} "${args.value}" ${args.constraints[2] ? 'does not exist' : 'already exists'}`;
   }
 }
 
