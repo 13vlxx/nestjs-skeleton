@@ -27,7 +27,7 @@ export class UniqueExistsConstraint implements ValidatorConstraintInterface {
   }
 
   defaultMessage(args: ValidationArguments) {
-    return `${args.constraints[1]} "${args.value}" ${args.constraints[2] ? 'does not exist' : 'already exists'}`;
+    return `${args.constraints[1]} '${args.value}' ${args.constraints[2] ? 'does not exist' : 'already exists'}`;
   }
 }
 

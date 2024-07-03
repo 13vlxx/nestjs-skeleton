@@ -15,7 +15,7 @@ export class UsersRepository {
 
   findOneById = (id: string) =>
     this.model
-      .findOne({ _id: id, deletedAt: null, disabledAt: null })
+      .findOne({ _id: id, deletedAt: null })
       .orFail(this.USER_NOT_FOUND_EXCEPTION)
       .exec();
 
