@@ -41,7 +41,6 @@ export class UniqueExistsConstraint implements ValidatorConstraintInterface {
 export function IsUnique<T>(
   entity: ClassType<T>,
   validationOptions?: UniqueExistsValidationOptions<T>,
-  flag: boolean = false,
 ) {
   return (object: any, propertyName: string) => {
     registerDecorator({
@@ -49,7 +48,7 @@ export function IsUnique<T>(
       target: object.constructor,
       propertyName,
       options: validationOptions,
-      constraints: [entity.name, validationOptions, propertyName, flag],
+      constraints: [entity.name, validationOptions, propertyName, false],
       validator: UniqueExistsConstraint,
     });
   };
@@ -58,7 +57,6 @@ export function IsUnique<T>(
 export function IsExisting<T>(
   entity: ClassType<T>,
   validationOptions?: UniqueExistsValidationOptions<T>,
-  flag: boolean = true,
 ) {
   return (object: any, propertyName: string) => {
     registerDecorator({
@@ -66,7 +64,7 @@ export function IsExisting<T>(
       target: object.constructor,
       propertyName,
       options: validationOptions,
-      constraints: [entity, validationOptions, propertyName, flag],
+      constraints: [entity, validationOptions, propertyName, true],
       validator: UniqueExistsConstraint,
     });
   };
