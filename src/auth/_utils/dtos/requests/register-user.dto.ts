@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsUnique } from 'src/_utils/decorators/unique-exists.decorator';
 import { User } from 'src/users/user.schema';
 import { SolidPassword } from '../../decorators/solid-password.decorator';
-import { IsUnique } from '../../decorators/unique-exists.decorator';
 
 export class RegisterUserDto {
   @IsString()
