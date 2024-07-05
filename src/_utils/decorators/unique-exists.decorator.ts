@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/mongoose';
 import {
   ValidationArguments,
@@ -22,7 +22,7 @@ export class UniqueExistsConstraint implements ValidatorConstraintInterface {
       options.property === '_id' ||
       (property === '_id' && !isValidObjectId(value))
     )
-      throw new ConflictException('Invalid ObjectId');
+      return false;
 
     const repository = this.connection.model(entity);
     const query: FilterQuery<any> = {
@@ -37,6 +37,11 @@ export class UniqueExistsConstraint implements ValidatorConstraintInterface {
   }
 
   defaultMessage(args: ValidationArguments) {
+    if (
+      args.constraints[1]?.property?.includes('id') ??
+      (args.property.includes('id') && !isValidObjectId(args.value))
+    )
+      return `${args.constraints[1].property ?? args.property} '${args.value}' is not a valid ObjectId`;
     return `${args.property} '${args.value}' ${args.constraints[3] ? 'does not exist' : 'already exists'}`;
   }
 }
