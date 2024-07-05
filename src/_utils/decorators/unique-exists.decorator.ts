@@ -29,7 +29,7 @@ export class UniqueExistsConstraint implements ValidatorConstraintInterface {
       [options.property || property]: value,
       ...options.queries,
     };
-    if (!options.excludeDeleted) query.deletedAt = null;
+    if (options.excludeDeleted) query.deletedAt = null;
 
     const result = await repository.findOne(query).exec();
 
