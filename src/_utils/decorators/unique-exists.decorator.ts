@@ -7,7 +7,7 @@ import {
   registerDecorator,
 } from 'class-validator';
 import { Connection, FilterQuery, isValidObjectId } from 'mongoose';
-import { UniqueExistsValidationOptions } from './options/unique-exists.options';
+import { UniqueExistsValidationOptions } from './options/custom-validation.options';
 
 @ValidatorConstraint({ async: true })
 @Injectable()
@@ -25,8 +25,11 @@ export class UniqueExistsConstraint implements ValidatorConstraintInterface {
       throw new ConflictException('Invalid ObjectId');
 
     const repository = this.connection.model(entity);
-    const query: FilterQuery<any> = { [options.property || property]: value };
-    if (!options.includeDeleted) query.deletedAt = null;
+    const query: FilterQuery<any> = {
+      [options.property || property]: value,
+      ...options.queries,
+    };
+    if (!options.excludeDeleted) query.deletedAt = null;
 
     const result = await repository.findOne(query).exec();
 

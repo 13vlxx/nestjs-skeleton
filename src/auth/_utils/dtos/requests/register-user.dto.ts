@@ -16,7 +16,7 @@ export class RegisterUserDto {
   lastname: string;
 
   @IsEmail()
-  @IsUnique(User, { includeDeleted: true })
+  @IsUnique(User, { excludeDeleted: true })
   @ApiProperty({ example: 'alexmonac13@gmail.com' })
   email: string;
 

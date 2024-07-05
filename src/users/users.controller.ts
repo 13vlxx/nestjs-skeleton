@@ -1,6 +1,6 @@
 import { Controller, Delete, Get, HttpCode, Param } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
-import { getDocumentByIdPipe } from 'src/_utils/pipes/global-pipe-by-id.pipe';
+import { getDocumentPipe } from 'src/_utils/pipes/global-pipe-by-property.pipe';
 import { ConnectedUser } from 'src/auth/_utils/decorators/connected-user.decorator';
 import { Protect } from 'src/auth/_utils/decorators/protect.decorator';
 import { UserRoleEnum } from './_utils/user-role.enum';
@@ -26,13 +26,20 @@ export class UsersController {
   }
 
   @Protect(UserRoleEnum.ADMIN)
-  @Delete(':userId')
+  @Delete(':userEmail')
   @HttpCode(204)
-  @ApiParam({ name: 'userId', type: String })
+  @ApiParam({ name: 'userEmail', type: String })
   @ApiOperation({ summary: 'Safe delete an user' })
   safeDeleteUser(
     @ConnectedUser() by: UserDocument,
-    @Param('userId', getDocumentByIdPipe(User)) user: UserDocument,
+    @Param(
+      'userEmail',
+      getDocumentPipe(User, {
+        property: 'email',
+        excludeDeleted: true,
+      }),
+    )
+    user: UserDocument,
   ) {
     return this.usersRepository.safeDeleteUser(by, user);
   }
